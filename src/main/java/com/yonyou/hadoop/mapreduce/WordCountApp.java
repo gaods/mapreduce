@@ -14,6 +14,12 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ * 源码
+ * @author gaods
+ *
+ */
+
 public class WordCountApp {
 
 	public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable> {
