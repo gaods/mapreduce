@@ -7,6 +7,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -52,11 +53,11 @@ public class WordCountApp {
 		
 		public static void main(String[] args) throws Exception {
 		  Configuration conf = new Configuration();
-		  String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
-		  if (otherArgs.length < 2) {
-		    System.err.println("Usage: wordcount <in> [<in>...] <out>");
-		    System.exit(2);
-		  }
+//		  String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
+//		  if (otherArgs.length < 2) {
+//		    System.err.println("Usage: wordcount <in> [<in>...] <out>");
+//		    System.exit(2);
+//		  }
 		  Job job = Job.getInstance(conf, "word count");
 		  job.setJarByClass(WordCountApp.class);
 		  job.setMapperClass(TokenizerMapper.class);
@@ -64,11 +65,15 @@ public class WordCountApp {
 		  job.setReducerClass(IntSumReducer.class);
 		  job.setOutputKeyClass(Text.class);
 		  job.setOutputValueClass(IntWritable.class);
-		  for (int i = 0; i < otherArgs.length - 1; ++i) {
-		    FileInputFormat.addInputPath(job, new Path(otherArgs[i]));
-		  }
-		  FileOutputFormat.setOutputPath(job,
-		    new Path(otherArgs[otherArgs.length - 1]));
+//		  for (int i = 0; i < otherArgs.length - 1; ++i) {
+//		    FileInputFormat.addInputPath(job, new Path(otherArgs[i]));
+//		  }
+//		  
+			//设置输入输出路径
+			FileInputFormat.setInputPaths(job, new Path("hdfs://localhost:9000/words1"));
+			//
+			FileOutputFormat.setOutputPath(job, new Path("hdfs://localhost:9000/out11"));
+
 		  System.exit(job.waitForCompletion(true) ? 0 : 1);
 		}
 
